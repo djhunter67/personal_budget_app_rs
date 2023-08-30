@@ -11,7 +11,7 @@ This project, henceforth, will recongnize [semantic versioning](https://semver.o
 											       
 Here we write upgrade and change notes.						       
 											       
-⭐              MAJOR version when you make incompatible API changes,				       
+⭐ MAJOR version when you make incompatible API changes,				   
 											       
 ✴️ MINOR version when you add functionality in a backwards compatible manner		       
 											       
