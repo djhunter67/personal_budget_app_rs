@@ -19,22 +19,22 @@
 - [ ] Written in Rust.
 
 ## Installation
-- [ ] Download the executable.
-- [ ] Run the executable.
-- [ ] Access the application at `localhost:8000`.
-- [ ] Access the application from the internet at `TBD`.
+- Download the executable.
+- Run the executable.
+- Access the application at `localhost:8000`.
+- Access the application from the internet at `TBD`.
 
 ## Usage
-- [ ] Login or create an account.
-- [ ] Enter expense information.
-- [ ] View previous expenses.
-- [ ] View trends in expenses.
-- [ ] Link a personal financial institution.
+- Login or create an account.
+- Enter expense information.
+- View previous expenses.
+- View trends in expenses.
+- Link a personal financial institution.
 
 ## Contributing
-- [ ] Fork the repository.
-- [ ] Make changes.
-- [ ] Submit a pull request.
+- Fork the repository.
+- Make changes.
+- Submit a pull request.
 
 
 
