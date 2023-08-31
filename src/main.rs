@@ -15,7 +15,7 @@ async fn main() -> std::io::Result<()> {
         WriteLogger::new(
             simplelog::LevelFilter::Info,
             simplelog::Config::default(),
-            File::create("my_rust_binary.log").unwrap(),
+            File::create("budget_rs.log").unwrap(),
         ),
     ])
     .unwrap();
@@ -25,9 +25,9 @@ async fn main() -> std::io::Result<()> {
             .route("/", web::get().to(index))
             .route("/health", web::get().to(health))
     })
-    .bind(("127.0.0.1", 8000))
+    .bind(("127.0.0.1", 8123))
     .unwrap_or_else(|_| {
-        log::warn!("Can not bind to port 8000");
+        log::warn!("Can not bind to port 8123");
         std::process::exit(1);
     })
     .run()
