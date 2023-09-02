@@ -23,7 +23,10 @@ async fn main() -> std::io::Result<()> {
     let _ = HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(index))
-            .route("/health", web::get().to(health))
+	    .route("/about", web::get().to(about))
+    	    .route("/debt", web::get().to(debt))
+    	    .route("/finance", web::get().to(finance))
+    	    .route("/income", web::get().to(income))
     })
     .bind(("127.0.0.1", 8123))
     .unwrap_or_else(|_| {
@@ -36,10 +39,25 @@ async fn main() -> std::io::Result<()> {
     Ok(())
 }
 
+// Return the html file at ../frontend/index.html
 async fn index() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+    HttpResponse::Ok()
+        .content_type("text/html")
+        .body(include_str!("../frontend/index.html"))
 }
 
-async fn health() -> impl Responder {
+async fn about() -> impl Responder {
+    HttpResponse::Ok().body("OK")
+}
+
+async fn debt() -> impl Responder {
+    HttpResponse::Ok().body("OK")
+}
+
+async fn finance() -> impl Responder {
+    HttpResponse::Ok().body("OK")
+}
+
+async fn income() -> impl Responder {
     HttpResponse::Ok().body("OK")
 }
