@@ -44,6 +44,8 @@ async fn main() -> std::io::Result<()> {
                     title: "Retirement",
                 }
             }))
+            .service(web::resource("/budget").to(|| async { Budget { title: "Budget" } }))
+            .service(web::resource("/404").to(|| async { NotFound { title: "404" } }))
     })
     .workers(1)
     .bind(("127.0.0.1", 8123))
@@ -97,6 +99,18 @@ struct Retirement<'a> {
 #[derive(Template)]
 #[template(path = "investment.html")]
 struct Investment<'a> {
+    title: &'a str,
+}
+
+#[derive(Template)]
+#[template(path = "budget.html")]
+struct Budget<'a> {
+    title: &'a str,
+}
+
+#[derive(Template)]
+#[template(path = "404.html")]
+struct NotFound<'a> {
     title: &'a str,
 }
 
@@ -213,6 +227,34 @@ mod tests {
         let resp = test::call_service(&app, req).await;
 
         assert_eq!(resp.status(), http::StatusCode::OK);
+    }
+
+    #[actix_web::test]
+    async fn test_budget() {
+        let app = test::init_service(App::new().route(
+            "/budget",
+            web::get().to(|| async { Budget { title: "Budget" } }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/budget").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(resp.status(), http::StatusCode::OK);
+    }
+
+    #[actix_web::test]
+    async fn test_404() {
+        let app = test::init_service(App::new().route(
+            "/404",
+            web::get().to(|| async { NotFound { title: "404" } }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/404").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(resp.status(), http::StatusCode::NOT_FOUND);
     }
 
     #[actix_web::test]
@@ -338,6 +380,40 @@ mod tests {
         .await;
 
         let req = test::TestRequest::get().uri("/investment").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_budget_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/budget",
+            web::get().to(|| async { Budget { title: "Budget" } }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/budget").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_404_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/404",
+            web::get().to(|| async { NotFound { title: "404" } }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/404").to_request();
         let resp = test::call_service(&app, req).await;
 
         assert_eq!(
