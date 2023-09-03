@@ -1,10 +1,14 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8"/>
-    <title>Document</title>
-  </head>
-  <body>
-    <h1> Hunter Finance  </h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}{{ title  }}{% endblock %}
+
+{% block head %}
+  <style>
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1>Index</h1>
+  <p>Hello,{{ name  }}!</p>
+  {% call super() %}
+{% endblock %}

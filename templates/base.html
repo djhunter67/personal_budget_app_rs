@@ -1,14 +1,12 @@
-{% extends "base.html" %}
-
-{% block title %}Index{% endblock %}
-
-{% block head %}
-  <style>
-  </style>
-{% endblock %}
-
-{% block content %}
-  <h1>Index</h1>
-  <p>Hello, world!</p>
-  {% call super() %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{{ title }} - My Site{% endblock %}</title>
+    {% block head %}{% endblock %}
+  </head>
+  <body style=background:purple>
+    <div id="content">
+      {% block content %}<p>Placeholder content</p>{% endblock %}
+    </div>
+  </body>
+</html>

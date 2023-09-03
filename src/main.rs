@@ -1,4 +1,6 @@
-use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{web, App, HttpServer};
+
+use askama::Template;
 
 use simplelog::{CombinedLogger, TermLogger, WriteLogger};
 use std::fs::File;
@@ -22,12 +24,21 @@ async fn main() -> std::io::Result<()> {
 
     let _ = HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(index))
-            .route("/about", web::get().to(about))
-            .route("/debt", web::get().to(debt))
-            .route("/finance", web::get().to(finance))
-            .route("/income", web::get().to(income))
-            .route("/retirement", web::get().to(retirement))
+            .service(web::resource("/").to(|| async {
+                HelloTemplate {
+                    name: "Hunter",
+                    title: "Home",
+                }
+            }))
+            .service(web::resource("/about").to(|| async { About { title: "About" } }))
+            .service(web::resource("/debt").to(|| async { Debt { title: "Debt" } }))
+            .service(web::resource("/finances").to(|| async { Finances { title: "Finances" } }))
+            .service(web::resource("/income").to(|| async { Income { title: "Income" } }))
+            .service(web::resource("/retirement").to(|| async {
+                Retirement {
+                    title: "Retirement",
+                }
+            }))
     })
     .bind(("127.0.0.1", 8123))
     .unwrap_or_else(|_| {
@@ -40,40 +51,41 @@ async fn main() -> std::io::Result<()> {
     Ok(())
 }
 
-async fn index() -> impl Responder {
-    HttpResponse::Ok()
-        .content_type("text/html")
-        .body(include_str!("../frontend/index.html"))
+#[derive(Template)]
+#[template(path = "index.html")]
+struct HelloTemplate<'a> {
+    title: &'a str,
+    name: &'a str,
 }
 
-async fn about() -> impl Responder {
-    HttpResponse::Ok()
-        .content_type("text/html")
-        .body(include_str!("../frontend/about.html"))
+#[derive(Template)]
+#[template(path = "about.html")]
+struct About<'a> {
+    title: &'a str,
 }
 
-async fn debt() -> impl Responder {
-    HttpResponse::Ok()
-        .content_type("text/html")
-        .body(include_str!("../frontend/debt.html"))
+#[derive(Template)]
+#[template(path = "debt.html")]
+struct Debt<'a> {
+    title: &'a str,
 }
 
-async fn finance() -> impl Responder {
-    HttpResponse::Ok()
-        .content_type("text/html")
-        .body(include_str!("../frontend/finances.html"))
+#[derive(Template)]
+#[template(path = "finances.html")]
+struct Finances<'a> {
+    title: &'a str,
 }
 
-async fn income() -> impl Responder {
-    HttpResponse::Ok()
-        .content_type("text/html")
-        .body(include_str!("../frontend/income.html"))
+#[derive(Template)]
+#[template(path = "income.html")]
+struct Income<'a> {
+    title: &'a str,
 }
 
-async fn retirement() -> impl Responder {
-    HttpResponse::Ok()
-        .content_type("text/html")
-        .body(include_str!("../frontend/retirement.html"))
+#[derive(Template)]
+#[template(path = "retirement.html")]
+struct Retirement<'a> {
+    title: &'a str,
 }
 
 #[cfg(test)]
@@ -83,7 +95,16 @@ mod tests {
 
     #[actix_web::test]
     async fn test_index() {
-        let app = test::init_service(App::new().route("/", web::get().to(index))).await;
+        let app = test::init_service(App::new().route(
+            "/",
+            web::get().to(|| async {
+                HelloTemplate {
+                    name: "Hunter",
+                    title: "Home",
+                }
+            }),
+        ))
+        .await;
 
         let req = test::TestRequest::get().uri("/").to_request();
         let resp = test::call_service(&app, req).await;
@@ -93,7 +114,11 @@ mod tests {
 
     #[actix_web::test]
     async fn test_about() {
-        let app = test::init_service(App::new().route("/about", web::get().to(about))).await;
+        let app = test::init_service(App::new().route(
+            "/about",
+            web::get().to(|| async { About { title: "About" } }),
+        ))
+        .await;
 
         let req = test::TestRequest::get().uri("/about").to_request();
         let resp = test::call_service(&app, req).await;
@@ -103,7 +128,10 @@ mod tests {
 
     #[actix_web::test]
     async fn test_debt() {
-        let app = test::init_service(App::new().route("/debt", web::get().to(debt))).await;
+        let app = test::init_service(
+            App::new().route("/debt", web::get().to(|| async { Debt { title: "Debt" } })),
+        )
+        .await;
 
         let req = test::TestRequest::get().uri("/debt").to_request();
         let resp = test::call_service(&app, req).await;
@@ -112,10 +140,14 @@ mod tests {
     }
 
     #[actix_web::test]
-    async fn test_finance() {
-        let app = test::init_service(App::new().route("/finance", web::get().to(finance))).await;
+    async fn test_finances() {
+        let app = test::init_service(App::new().route(
+            "/finances",
+            web::get().to(|| async { Finances { title: "Finances" } }),
+        ))
+        .await;
 
-        let req = test::TestRequest::get().uri("/finance").to_request();
+        let req = test::TestRequest::get().uri("/finances").to_request();
         let resp = test::call_service(&app, req).await;
 
         assert_eq!(resp.status(), http::StatusCode::OK);
@@ -123,7 +155,11 @@ mod tests {
 
     #[actix_web::test]
     async fn test_income() {
-        let app = test::init_service(App::new().route("/income", web::get().to(income))).await;
+        let app = test::init_service(App::new().route(
+            "/income",
+            web::get().to(|| async { Income { title: "Income" } }),
+        ))
+        .await;
 
         let req = test::TestRequest::get().uri("/income").to_request();
         let resp = test::call_service(&app, req).await;
@@ -133,12 +169,129 @@ mod tests {
 
     #[actix_web::test]
     async fn test_retirement() {
-        let app =
-            test::init_service(App::new().route("/retirement", web::get().to(retirement))).await;
+        let app = test::init_service(App::new().route(
+            "/retirement",
+            web::get().to(|| async {
+                Retirement {
+                    title: "Retirement",
+                }
+            }),
+        ))
+        .await;
 
         let req = test::TestRequest::get().uri("/retirement").to_request();
         let resp = test::call_service(&app, req).await;
 
         assert_eq!(resp.status(), http::StatusCode::OK);
+    }
+
+    #[actix_web::test]
+    async fn test_index_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/",
+            web::get().to(|| async {
+                HelloTemplate {
+                    name: "Hunter",
+                    title: "Home",
+                }
+            }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_about_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/about",
+            web::get().to(|| async { About { title: "About" } }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/about").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_debt_returns_html() {
+        let app = test::init_service(
+            App::new().route("/debt", web::get().to(|| async { Debt { title: "Debt" } })),
+        )
+        .await;
+
+        let req = test::TestRequest::get().uri("/debt").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_finances_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/finances",
+            web::get().to(|| async { Finances { title: "Finances" } }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/finances").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_income_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/income",
+            web::get().to(|| async { Income { title: "Income" } }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/income").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_retirement_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/retirement",
+            web::get().to(|| async {
+                Retirement {
+                    title: "Retirement",
+                }
+            }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/retirement").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
     }
 }
