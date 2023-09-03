@@ -2,6 +2,14 @@
 name = "personal_budget_app_rs"
 version = "0.1.0"
 edition = "2021"
+authors = ["Hunter, Christerpher <djhunter67@gmail.com>"]
+description = "A personal budget app written wrangle in my wild finances. I feel poor, but I'm not. I just need to get a handle on my finances."
+repository = "github.com/djhunter67/personal_budget_app_rs"
+license = "MIT"
+readme = "README.md"
+keywords = ["personal", "budget", "finance", "app"]
+categories = ["personal", "finance", "budget"]
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -15,3 +23,4 @@ reqwest = "0.11.20"
 serde = { version = "1.0.188", features = ["derive"] }
 serde_json = "1.0.105"
 simplelog = "0.12.1"
+	 

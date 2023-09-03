@@ -34,12 +34,18 @@ async fn main() -> std::io::Result<()> {
             .service(web::resource("/debt").to(|| async { Debt { title: "Debt" } }))
             .service(web::resource("/finances").to(|| async { Finances { title: "Finances" } }))
             .service(web::resource("/income").to(|| async { Income { title: "Income" } }))
+            .service(web::resource("/investment").to(|| async {
+                Investment {
+                    title: "Investment",
+                }
+            }))
             .service(web::resource("/retirement").to(|| async {
                 Retirement {
                     title: "Retirement",
                 }
             }))
     })
+    .workers(1)
     .bind(("127.0.0.1", 8123))
     .unwrap_or_else(|_| {
         log::warn!("Can not bind to port 8123");
@@ -85,6 +91,12 @@ struct Income<'a> {
 #[derive(Template)]
 #[template(path = "retirement.html")]
 struct Retirement<'a> {
+    title: &'a str,
+}
+
+#[derive(Template)]
+#[template(path = "investment.html")]
+struct Investment<'a> {
     title: &'a str,
 }
 
@@ -162,6 +174,24 @@ mod tests {
         .await;
 
         let req = test::TestRequest::get().uri("/income").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(resp.status(), http::StatusCode::OK);
+    }
+
+    #[actix_web::test]
+    async fn test_investment() {
+        let app = test::init_service(App::new().route(
+            "/investment",
+            web::get().to(|| async {
+                Investment {
+                    title: "Investment",
+                }
+            }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/investment").to_request();
         let resp = test::call_service(&app, req).await;
 
         assert_eq!(resp.status(), http::StatusCode::OK);
@@ -287,6 +317,27 @@ mod tests {
         .await;
 
         let req = test::TestRequest::get().uri("/retirement").to_request();
+        let resp = test::call_service(&app, req).await;
+
+        assert_eq!(
+            resp.headers().get(http::header::CONTENT_TYPE).unwrap(),
+            "text/html; charset=utf-8"
+        );
+    }
+
+    #[actix_web::test]
+    async fn test_investment_returns_html() {
+        let app = test::init_service(App::new().route(
+            "/investment",
+            web::get().to(|| async {
+                Investment {
+                    title: "Investment",
+                }
+            }),
+        ))
+        .await;
+
+        let req = test::TestRequest::get().uri("/investment").to_request();
         let resp = test::call_service(&app, req).await;
 
         assert_eq!(
