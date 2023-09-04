@@ -20,8 +20,8 @@ pub struct Debt<'a> {
 }
 
 #[derive(Template)]
-#[template(path = "finances.html")]
-pub struct Finances<'a> {
+#[template(path = "savings.html")]
+pub struct Savings<'a> {
     pub title: &'a str,
 }
 

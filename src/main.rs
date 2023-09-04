@@ -1,8 +1,12 @@
-use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+mod logic;
+
+use actix_web::{web, App, HttpServer};
 
 use personal_budget_app_rs::{
     About, Budget, Debt, Finances, HelloTemplate, Income, Investment, NotFound, Retirement,
 };
+
+use crate::logic::finances::finances_post;
 
 use simplelog::{CombinedLogger, TermLogger, WriteLogger};
 use std::fs::File;
@@ -26,6 +30,7 @@ async fn main() -> std::io::Result<()> {
 
     let _ = HttpServer::new(|| {
         App::new()
+            .route("/savings_input", web::post().to(savings_post))
             .service(web::resource("/").to(|| async {
                 HelloTemplate {
                     name: "Hunter",
@@ -34,7 +39,7 @@ async fn main() -> std::io::Result<()> {
             }))
             .service(web::resource("/about").to(|| async { About { title: "About" } }))
             .service(web::resource("/debt").to(|| async { Debt { title: "Debt" } }))
-            .service(web::resource("/finances").to(|| async { Finances { title: "Finances" } }))
+            .service(web::resource("/savings").to(|| async { Finances { title: "Savings" } }))
             .service(web::resource("/income").to(|| async { Income { title: "Income" } }))
             .service(web::resource("/investment").to(|| async {
                 Investment {
@@ -59,11 +64,4 @@ async fn main() -> std::io::Result<()> {
     .await;
 
     Ok(())
-}
-
-// Post request from /finances form
-#[actix_web::post("/finance_input")]
-async fn finances_post() -> impl Responder {
-    println!("{:?}", HttpResponse::Ok().body("Finances post"));
-    "finances post"
 }

@@ -17,11 +17,15 @@
 - [ ] Analyze all previous data to identify trends in expenses.
 - [ ] Take advantage of interoperating with personal financial institutions.
 - [ ] Written in Rust.
+- [ ] No JavaScript.
+- [ ] Self-hosted.
+- [ ] Expose a web interface to the internet.
+
 
 ## Installation
 - Download the executable.
 - Run the executable.
-- Access the application at `localhost:8000`.
+- Access the application at `localhost:8123`.
 - Access the application from the internet at `TBD`.
 
 ## Usage
