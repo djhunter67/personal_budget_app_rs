@@ -42,7 +42,7 @@
 
 ## Initial Design
 
-![Initial Design](./assets/docs/initial_design.pdf)
+![Initial Design](./assets/docs/init_design.png)
 
 	
 

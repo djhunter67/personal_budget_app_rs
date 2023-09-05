@@ -244,7 +244,12 @@ async fn test_debt_returns_html() {
 async fn test_finances_returns_html() {
     let app = test::init_service(App::new().route(
         "/finances",
-        web::get().to(|| async { Savings { title: "Savings", savings: "Savings" } }),
+        web::get().to(|| async {
+            Savings {
+                title: "Savings",
+                savings: "Savings",
+            }
+        }),
     ))
     .await;
 

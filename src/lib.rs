@@ -17,7 +17,6 @@ pub async fn home_button() -> HttpResponse {
   cursor: pointer;\"
         >Home</button>
     ";
-
     HttpResponse::build(StatusCode::OK)
         .content_type("text/html; charset=utf-8")
         .body(response.to_string())
@@ -76,7 +75,7 @@ pub struct Investment<'a> {
 #[template(path = "budget.html")]
 pub struct Budget<'a> {
     pub title: &'a str,
-    pub budget: &'a str,    
+    pub budget: &'a str,
 }
 
 #[derive(Template)]

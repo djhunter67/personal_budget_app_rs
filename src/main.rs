@@ -48,7 +48,7 @@ async fn main() -> std::io::Result<()> {
                     title: "Hunter Home",
                     index: titled,
                 } // Accessable in the HTML template; askama
-            })) 
+            }))
             .service(home_button) // When home button is pressed.
             .service(web::resource("/about").to(|| async {
                 About {
