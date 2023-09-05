@@ -42,7 +42,7 @@
 
 ## Initial Design
 
-<embed src="/assets/docs/initial_design.pdf" type="application/pdf">
+![Initial Design](./assets/docs/initial_design.pdf)
 
 	
 
