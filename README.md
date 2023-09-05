@@ -40,5 +40,10 @@
 - Make changes.
 - Submit a pull request.
 
+## Initial Design
+
+<embed src="/assets/docs/initial_design.pdf" type="application/pdf">
+
+	
 
 

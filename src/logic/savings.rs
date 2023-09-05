@@ -8,7 +8,7 @@ pub struct Info {
     more_data: String,
 }
 
-// Post request from /finances form
+// Post request from /savings form
 pub async fn savings_post(payload: web::Json<Info>) -> impl Responder {
     let info = payload.into_inner();
     println!("info: {}", info.information);

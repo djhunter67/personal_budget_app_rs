@@ -3,12 +3,10 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block head %}
-  <style>
-  </style>
 {% endblock %}
 
 {% block content %}
-  <h1>Investment</h1>
-  <p>Hello, world!</p>
-  {% call super() %}
+  <h1>{{ investment }}</h1>
+<p>Hello, {{ investment  }}</p>
+{% call super() %}
 {% endblock %}

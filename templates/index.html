@@ -8,7 +8,42 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Index</h1>
-  <p>Hello,{{ name  }}!</p>
+  <h1>{{index}}</h1>
+<p>Hello,{{ title  }}!</p>
+<section class="hero">
+  <div class="hero__body">
+    <div class="hero__body__container">
+      <h1 class="hero__body__container__title">
+	{{ title  }}
+      </h1>
+      <h2 class="hero__body__container__subtitle">
+	{{ index  }}
+      </h2>
+    </div>
+  </div>
+</section>
+<div>
+  <button type="button" onclick="window.location.href='/about'"
+	  >
+    About</button>
+  <button type="button" onclick="window.location.href='/investment'"	  
+	  >
+    Investment</button>
+  <button type="button" onclick="window.location.href='/income'"	  
+	  >
+    Income</button>
+  <button type="button" onclick="window.location.href='/debt'"	  
+	  >
+    Debt</button>
+  <button type="button" onclick="window.location.href='/retirement'"	 
+	  >
+    Retirement</button>
+  <button type="button" onclick="window.location.href='/savings'"	  
+	  >
+    Savings</button>
+  <button type="button" onclick="window.location.href='/budget'"	 
+	  >
+    Budget</button>    
+</div>
   {% call super() %}
 {% endblock %}

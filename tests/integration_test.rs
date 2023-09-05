@@ -1,6 +1,6 @@
 use actix_web::{http, test, web, App};
 use personal_budget_app_rs::{
-    About, Budget, Debt, Finances, HelloTemplate, Income, Investment, NotFound, Retirement,
+    About, Budget, Debt, HelloTemplate, Income, Investment, NotFound, Retirement, Savings,
 };
 
 #[actix_web::test]
@@ -9,8 +9,8 @@ async fn test_index() {
         "/",
         web::get().to(|| async {
             HelloTemplate {
-                name: "Hunter",
-                title: "Home",
+                title: "Hunter",
+                index: "Home",
             }
         }),
     ))
@@ -26,7 +26,12 @@ async fn test_index() {
 async fn test_about() {
     let app = test::init_service(App::new().route(
         "/about",
-        web::get().to(|| async { About { title: "About" } }),
+        web::get().to(|| async {
+            About {
+                title: "About",
+                about: "About",
+            }
+        }),
     ))
     .await;
 
@@ -38,9 +43,15 @@ async fn test_about() {
 
 #[actix_web::test]
 async fn test_debt() {
-    let app = test::init_service(
-        App::new().route("/debt", web::get().to(|| async { Debt { title: "Debt" } })),
-    )
+    let app = test::init_service(App::new().route(
+        "/debt",
+        web::get().to(|| async {
+            Debt {
+                title: "Debt",
+                debt: "Debt",
+            }
+        }),
+    ))
     .await;
 
     let req = test::TestRequest::get().uri("/debt").to_request();
@@ -53,7 +64,12 @@ async fn test_debt() {
 async fn test_finances() {
     let app = test::init_service(App::new().route(
         "/finances",
-        web::get().to(|| async { Finances { title: "Finances" } }),
+        web::get().to(|| async {
+            Savings {
+                title: "Savings",
+                savings: "Savings",
+            }
+        }),
     ))
     .await;
 
@@ -67,7 +83,12 @@ async fn test_finances() {
 async fn test_income() {
     let app = test::init_service(App::new().route(
         "/income",
-        web::get().to(|| async { Income { title: "Income" } }),
+        web::get().to(|| async {
+            Income {
+                title: "Income",
+                income: "Income",
+            }
+        }),
     ))
     .await;
 
@@ -84,6 +105,7 @@ async fn test_investment() {
         web::get().to(|| async {
             Investment {
                 title: "Investment",
+                investment: "Investment",
             }
         }),
     ))
@@ -102,6 +124,7 @@ async fn test_retirement() {
         web::get().to(|| async {
             Retirement {
                 title: "Retirement",
+                retirement: "Retirement",
             }
         }),
     ))
@@ -117,7 +140,12 @@ async fn test_retirement() {
 async fn test_budget() {
     let app = test::init_service(App::new().route(
         "/budget",
-        web::get().to(|| async { Budget { title: "Budget" } }),
+        web::get().to(|| async {
+            Budget {
+                title: "Budget",
+                budget: "Budget",
+            }
+        }),
     ))
     .await;
 
@@ -131,7 +159,12 @@ async fn test_budget() {
 async fn test_404() {
     let app = test::init_service(App::new().route(
         "/404",
-        web::get().to(|| async { NotFound { title: "404" } }),
+        web::get().to(|| async {
+            NotFound {
+                title: "404",
+                not_found: "404",
+            }
+        }),
     ))
     .await;
 
@@ -147,8 +180,8 @@ async fn test_index_returns_html() {
         "/",
         web::get().to(|| async {
             HelloTemplate {
-                name: "Hunter",
-                title: "Home",
+                title: "Hunter",
+                index: "Home",
             }
         }),
     ))
@@ -167,7 +200,12 @@ async fn test_index_returns_html() {
 async fn test_about_returns_html() {
     let app = test::init_service(App::new().route(
         "/about",
-        web::get().to(|| async { About { title: "About" } }),
+        web::get().to(|| async {
+            About {
+                title: "About",
+                about: "About",
+            }
+        }),
     ))
     .await;
 
@@ -182,9 +220,15 @@ async fn test_about_returns_html() {
 
 #[actix_web::test]
 async fn test_debt_returns_html() {
-    let app = test::init_service(
-        App::new().route("/debt", web::get().to(|| async { Debt { title: "Debt" } })),
-    )
+    let app = test::init_service(App::new().route(
+        "/debt",
+        web::get().to(|| async {
+            Debt {
+                title: "Debt",
+                debt: "Debt",
+            }
+        }),
+    ))
     .await;
 
     let req = test::TestRequest::get().uri("/debt").to_request();
@@ -200,7 +244,7 @@ async fn test_debt_returns_html() {
 async fn test_finances_returns_html() {
     let app = test::init_service(App::new().route(
         "/finances",
-        web::get().to(|| async { Finances { title: "Finances" } }),
+        web::get().to(|| async { Savings { title: "Savings", savings: "Savings" } }),
     ))
     .await;
 
@@ -217,7 +261,12 @@ async fn test_finances_returns_html() {
 async fn test_income_returns_html() {
     let app = test::init_service(App::new().route(
         "/income",
-        web::get().to(|| async { Income { title: "Income" } }),
+        web::get().to(|| async {
+            Income {
+                title: "Income",
+                income: "Income",
+            }
+        }),
     ))
     .await;
 
@@ -237,6 +286,7 @@ async fn test_retirement_returns_html() {
         web::get().to(|| async {
             Retirement {
                 title: "Retirement",
+                retirement: "Retirement",
             }
         }),
     ))
@@ -258,6 +308,7 @@ async fn test_investment_returns_html() {
         web::get().to(|| async {
             Investment {
                 title: "Investment",
+                investment: "Investment",
             }
         }),
     ))
@@ -276,7 +327,12 @@ async fn test_investment_returns_html() {
 async fn test_budget_returns_html() {
     let app = test::init_service(App::new().route(
         "/budget",
-        web::get().to(|| async { Budget { title: "Budget" } }),
+        web::get().to(|| async {
+            Budget {
+                title: "Budget",
+                budget: "Budget",
+            }
+        }),
     ))
     .await;
 
@@ -293,7 +349,12 @@ async fn test_budget_returns_html() {
 async fn test_404_returns_html() {
     let app = test::init_service(App::new().route(
         "/404",
-        web::get().to(|| async { NotFound { title: "404" } }),
+        web::get().to(|| async {
+            NotFound {
+                title: "404",
+                not_found: "404",
+            }
+        }),
     ))
     .await;
 
