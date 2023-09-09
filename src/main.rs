@@ -58,7 +58,7 @@ async fn main() -> std::io::Result<()> {
             }))
             .service(web::resource("/debt").to(|| async {
                 Debt {
-                    title: "Debt",
+                    title: "Debted",
                     debt: debted,
                 } // Accessable in the HTML template; askama
             }))
