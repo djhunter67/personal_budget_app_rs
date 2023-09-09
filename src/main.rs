@@ -52,7 +52,7 @@ async fn main() -> std::io::Result<()> {
             .service(home_button) // When home button is pressed.
             .service(web::resource("/about").to(|| async {
                 About {
-                    title: "About",
+                    title: "Aboot",
                     about: abouted,
                 } // Accessable in the HTML template; askama
             }))
