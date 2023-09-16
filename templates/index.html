@@ -3,13 +3,14 @@
 {% block title %}{{ title  }}{% endblock %}
 
 {% block head %}
-  <style>
-  </style>
+<style>
+</style>
 {% endblock %}
 
 {% block content %}
-  <h1>{{index}}</h1>
+<h1>{{index}}</h1>
 <p>Hello,{{ title  }}!</p>
+
 <section class="hero">
   <div class="hero__body">
     <div class="hero__body__container">
@@ -45,5 +46,5 @@
 	  >
     Budget</button>    
 </div>
-  {% call super() %}
+{% call super() %}
 {% endblock %}
