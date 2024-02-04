@@ -1,4 +1,4 @@
-use actix_web::{web, Responder};
+use actix_web::{post, web, Responder};
 
 use serde::Deserialize;
 
@@ -8,11 +8,16 @@ pub struct Info {
     more_data: String,
 }
 
-// Post request from /savings form
+#[post("/savings")]
 pub async fn savings_post(payload: web::Json<Info>) -> impl Responder {
     let info = payload.into_inner();
-    println!("info: {}", info.information);
-    println!("data: {}", info.more_data);
+
+    let request_span = tracing::info_span!("savings_post");
+
+    let _enter = request_span.enter();
+
+    tracing::info!("info: {}", info.information);
+    tracing::info!("data: {}", info.more_data);
 
     "savings post"
 }

@@ -1,16 +1,17 @@
 mod logic;
+mod telemetry;
 
 use actix_web::{web, App, HttpServer};
 
+use logic::index::home_button;
 use personal_budget_app_rs::{
-    home_button, About, Budget, Debt, HelloTemplate, Income, Investment, NotFound, Retirement,
+    about_button, budget_button, debt_button, income_button, investment_button, retirement_button,
+    savings_button, About, Budget, Debt, HelloTemplate, Income, Investment, NotFound, Retirement,
     Savings,
 };
+use telemetry::{get_subscriber, init_subscriber};
 
 use crate::logic::savings::savings_post;
-
-use simplelog::{CombinedLogger, TermLogger, WriteLogger};
-use std::fs::File;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -24,25 +25,13 @@ async fn main() -> std::io::Result<()> {
     let budgeted: &str = "Budget";
     let not_founded: &str = "404";
 
-    CombinedLogger::init(vec![
-        TermLogger::new(
-            log::LevelFilter::Debug,
-            simplelog::Config::default(),
-            simplelog::TerminalMode::Mixed,
-            simplelog::ColorChoice::Auto,
-        ),
-        WriteLogger::new(
-            simplelog::LevelFilter::Info,
-            simplelog::Config::default(),
-            File::create("budget_rs.log").unwrap(),
-        ),
-    ])
-    .unwrap();
+    let subscriber = get_subscriber("personal_budget_app_rs".into(), "info".into());
+    init_subscriber(subscriber);
 
     // The web server
     let _ = HttpServer::new(|| {
         App::new()
-            .route("/savings_input", web::post().to(savings_post)) // GET endpoint for htmx
+            .service(savings_post) // POST request
             .service(web::resource("/").to(|| async {
                 HelloTemplate {
                     title: "Hunter Home",
@@ -56,42 +45,49 @@ async fn main() -> std::io::Result<()> {
                     about: abouted,
                 } // Accessable in the HTML template; askama
             }))
+            .service(about_button)
             .service(web::resource("/debt").to(|| async {
                 Debt {
                     title: "Debted",
                     debt: debted,
                 } // Accessable in the HTML template; askama
             }))
+            .service(debt_button)
             .service(web::resource("/savings").to(|| async {
                 Savings {
                     title: "Savings",
                     savings: savinged,
                 } // Accessable in the HTML template; askama
             }))
+            .service(savings_button)
             .service(web::resource("/income").to(|| async {
                 Income {
                     title: "Income",
                     income: incomed,
                 } // Accessable in the HTML template; askama
             }))
+            .service(income_button)
             .service(web::resource("/investment").to(|| async {
                 Investment {
                     title: "Investment",
                     investment: invested,
                 } // Accessable in the HTML template; askama
             }))
+            .service(investment_button)
             .service(web::resource("/retirement").to(|| async {
                 Retirement {
                     title: "Retirement",
                     retirement: retired,
                 } // Accessable in the HTML template; askama
             }))
+            .service(retirement_button)
             .service(web::resource("/budget").to(|| async {
                 Budget {
                     title: "Budget",
                     budget: budgeted,
                 } // Accessable in the HTML template; askama
             }))
+            .service(budget_button)
             .service(web::resource("/404").to(|| async {
                 NotFound {
                     title: "404",

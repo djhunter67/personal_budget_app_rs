@@ -24,25 +24,60 @@
   </div>
 </section>
 <div>
-  <button type="button" onclick="window.location.href='/about'"
+  <button type="button"
+	  hx-get="/about_button"
+	  hx-trigger="click"
+	  hx-target="#global-home"
+	  hx-swap="outerHTML"
+	  onclick="window.location.href='/about'"
 	  >
-    About</button>
-  <button type="button" onclick="window.location.href='/investment'"	  
+    About</button>      
+  <button type="button"
+	  hx-get="/investment_button"
+	  hx-trigger="click"
+	  hx-target="#global-home"
+	  hx-swap="outerHTML"
+	  onclick="window.location.href='/investment'"	  
 	  >
     Investment</button>
-  <button type="button" onclick="window.location.href='/income'"	  
+  <button type="button"
+	  hx-get="/income_button"
+	  hx-trigger="click"
+	  hx-target="#global-home"
+	  hx-swap="outerHTML"
+	  onclick="window.location.href='/income'"	  
 	  >
     Income</button>
-  <button type="button" onclick="window.location.href='/debt'"	  
+  <button type="button"
+	  hx-get="/debt_button"
+	  hx-trigger="click"
+	  hx-target="#global-home"
+	  hx-swap="outerHTML"
+	  onclick="window.location.href='/debt'"	  
 	  >
     Debt</button>
-  <button type="button" onclick="window.location.href='/retirement'"	 
+  <button type="button"
+	  hx-get="/retirement_button"
+	  hx-trigger="click"
+	  hx-target="#global-home"
+	  hx-swap="outerHTML"
+	  onclick="window.location.href='/retirement'"	 
 	  >
     Retirement</button>
-  <button type="button" onclick="window.location.href='/savings'"	  
+  <button type="button"
+	  hx-get="/savings_button"
+	  hx-trigger="click"
+	  hx-target="#global-home"
+	  hx-swap="outerHTML"
+	  onclick="window.location.href='/savings'"	  
 	  >
     Savings</button>
-  <button type="button" onclick="window.location.href='/budget'"	 
+  <button type="button"
+	  hx-get="/budget_button"
+	  hx-trigger="click"
+	  hx-target="#global-home"
+	  hx-swap="outerHTML"
+	  onclick="window.location.href='/budget'"	 
 	  >
     Budget</button>    
 </div>
