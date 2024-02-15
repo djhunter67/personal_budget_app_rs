@@ -11,6 +11,7 @@ async fn test_index() {
             HelloTemplate {
                 title: "Hunter",
                 index: "Home",
+                subtitle: "Welcome to the Personal Budget App",
             }
         }),
     ))
@@ -182,6 +183,7 @@ async fn test_index_returns_html() {
             HelloTemplate {
                 title: "Hunter",
                 index: "Home",
+                subtitle: "Welcome to the Personal Budget App",
             }
         }),
     ))

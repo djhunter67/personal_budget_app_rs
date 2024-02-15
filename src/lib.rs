@@ -170,6 +170,34 @@ pub async fn budget_button() -> HttpResponse {
         .body(response.to_string())
 }
 
+#[get("/credit_button")]
+pub async fn credit_button() -> HttpResponse {
+    let request_span = tracing::info_span!("credit_button");
+
+    let _enter = request_span.enter();
+
+    info!("credit button");
+
+    debug!("defining the style and structure of the request");
+
+    let response: &str = "
+	<button style=\"background-color: #4CAF50; /* Green */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;\"
+		>Credit</button>
+	";
+
+    HttpResponse::build(StatusCode::OK)
+        .content_type("text/html; charset=utf-8")
+        .body(response.to_string())
+}
+
 #[get("/savings_button")]
 pub async fn savings_button() -> HttpResponse {
     let request_span = tracing::info_span!("savings_button");
@@ -203,6 +231,7 @@ pub async fn savings_button() -> HttpResponse {
 pub struct HelloTemplate<'a> {
     pub title: &'a str,
     pub index: &'a str,
+    pub subtitle: &'a str,
 }
 
 #[derive(Template)]
@@ -252,6 +281,13 @@ pub struct Investment<'a> {
 pub struct Budget<'a> {
     pub title: &'a str,
     pub budget: &'a str,
+}
+
+#[derive(Template)]
+#[template(path = "credit.html")]
+pub struct Credit<'a> {
+    pub title: &'a str,
+    pub credit: &'a str,
 }
 
 #[derive(Template)]

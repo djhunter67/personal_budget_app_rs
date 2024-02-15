@@ -7,9 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css">
     {% block head %}{% endblock %}
   </head>
-  <body style=background:purple>
+  <body>
     <div id="global-home">
       <button type="button"
 	      hx-get="/home_button"
@@ -18,9 +19,9 @@
 	      hx-swap="outerHTML"
 	      onclick="window.location.href='/'"
 	      >
-	Home</button>      
-</section>
+	Home</button>
     </div>
+    <p>Placeholder content from base.html</p>
     <div id="body__content">
       {% block content %}<p>Placeholder content from base.html</p>{% endblock %}
     </div>

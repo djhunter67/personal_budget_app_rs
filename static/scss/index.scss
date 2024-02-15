@@ -1,0 +1,121 @@
+$bistre: hsl(32, 76%, 8%);
+$brown_sugar: hsl(20, 49%, 56%);
+$atomic_tangerine: hsl(21, 79%, 74%);
+$peach_yellow: hsl(40, 83%, 81%);
+$cadet_gray: hsl(198, 16%, 66%);
+$border-darker: hsl(0, 0%, 0%);
+$border-color: hsl(0, 0%, 93%);
+$border-lighter: hsl(0, 0%, 98%);
+$border-radius: 30px;
+
+
+body {
+    font: 100% / 1.5 Arial, sans-serif;
+    background: $cadet_gray;
+    // filter: invert(1);
+    // mix-blend-mode: difference;    
+}
+
+.hero {
+    border: 1px solid $border-darker;
+    background-color: $atomic_tangerine;
+    border-radius: $border-radius;
+    width: 98.5vw;
+    height: 50vh;
+
+    &__body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 2em;
+    }
+}
+
+.main {
+    button {
+	// filter: invert(1);
+	// mix-blend-mode: difference;    
+	border: 1px solid $border-darker;
+	background-color: $atomic_tangerine;
+	border-radius: $border-radius;
+	margin: 1em;
+	width: 6em;
+	height: 3em;
+	cursor: pointer;
+	font-size: large;
+    }
+    &__about {
+	color: $brown_sugar;
+    }
+    &__investment {
+	color: $cadet_gray;
+    }
+    &__income {
+	color: $peach_yellow;
+    }
+    &__debt {
+	color: $peach_yellow;
+    }
+    &__retirement {
+	color: $brown_sugar;
+    }
+    &__savings {
+	color: $cadet_gray;
+    }
+    &__budget {
+	color: $cadet_gray;
+
+    }
+    &__credit {
+	color: $cadet_gray;
+    }
+
+    &__circle {
+	// create a rotating circle
+
+	// create a circle
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border: 1px solid $border-darker;
+	background-color: $atomic_tangerine;
+
+	// Place the circle in the center
+	position: absolute;
+	top: 50%;
+	left: 50%;
+
+
+	// create a black triangle on the circle
+	position: relative;
+	&::before {
+	    content: '';
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    width: 0;
+	    height: 0;
+	    border: 12px solid transparent;
+	    border-top-color: $border-darker;
+	    transform: translate(-50%, -50%);
+	}
+
+	// on hover, do the animation
+	&:hover {
+	    animation: rotate 2s linear infinite;
+
+	    @keyframes rotate {
+		0% {
+		    transform: rotate(0deg);
+		}
+		100% {
+		    transform: rotate(360deg);
+		}
+	    }
+	}
+    }
+}
+
+
+

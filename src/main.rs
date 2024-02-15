@@ -1,13 +1,14 @@
 mod logic;
 mod telemetry;
 
+use actix_files::NamedFile;
 use actix_web::{web, App, HttpServer};
 
 use logic::index::home_button;
 use personal_budget_app_rs::{
-    about_button, budget_button, debt_button, income_button, investment_button, retirement_button,
-    savings_button, About, Budget, Debt, HelloTemplate, Income, Investment, NotFound, Retirement,
-    Savings,
+    about_button, budget_button, credit_button, debt_button, income_button, investment_button,
+    retirement_button, savings_button, About, Budget, Credit, Debt, HelloTemplate, Income,
+    Investment, NotFound, Retirement, Savings,
 };
 use telemetry::{get_subscriber, init_subscriber};
 
@@ -15,7 +16,7 @@ use crate::logic::savings::savings_post;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let titled: &str = "Home";
+    let home: &str = "Home";
     let abouted: &str = "About";
     let debted: &str = "Debt";
     let savinged: &str = "Savings";
@@ -23,6 +24,7 @@ async fn main() -> std::io::Result<()> {
     let invested: &str = "Investment";
     let retired: &str = "Retirement";
     let budgeted: &str = "Budget";
+    let credited: &str = "Credit";
     let not_founded: &str = "404";
 
     let subscriber = get_subscriber("personal_budget_app_rs".into(), "info".into());
@@ -31,11 +33,17 @@ async fn main() -> std::io::Result<()> {
     // The web server
     let _ = HttpServer::new(|| {
         App::new()
+            .service(web::resource("css").to(|| async {
+                NamedFile::open("static/css/index.css")
+                    .unwrap()
+                    .use_last_modified(true)
+            }))
             .service(savings_post) // POST request
             .service(web::resource("/").to(|| async {
                 HelloTemplate {
-                    title: "Hunter Home",
-                    index: titled,
+                    title: "I'm Broke!",
+                    index: home,
+                    subtitle: "Welcome to the Personal Budget App",
                 } // Accessable in the HTML template; askama
             }))
             .service(home_button) // When home button is pressed.
@@ -88,6 +96,13 @@ async fn main() -> std::io::Result<()> {
                 } // Accessable in the HTML template; askama
             }))
             .service(budget_button)
+            .service(web::resource("/credit").to(|| async {
+                Credit {
+                    title: "Credit",
+                    credit: credited,
+                } // Accessable in the HTML template; askama
+            }))
+            .service(credit_button)
             .service(web::resource("/404").to(|| async {
                 NotFound {
                     title: "404",

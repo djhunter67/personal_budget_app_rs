@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+  <h1>{{credit}}</h1>
+  <p>Hello, world!</p>
+  {% call super() %}
+{% endblock %}
