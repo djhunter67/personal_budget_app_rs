@@ -39,3 +39,15 @@ tracing-subscriber = { version = "0.3.18", features = ["env-filter", "registry"]
 version = "2.8.1"
 default-features = false
 features = ["async-std-runtime"]
+
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[dev-dependencies]
+rstest = "0.18.2"
+pretty_assertions = "1.2.1"

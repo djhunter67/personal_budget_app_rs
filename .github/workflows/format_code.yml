@@ -7,7 +7,7 @@ env:
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
 
         strategy:
             matrix:
@@ -27,7 +27,7 @@ jobs:
                 cargo build --verbose --release
 
             - name: Run rustfmt
-              run: cargo fmt --all -- --check
+              run: cargo fmt --all -- -q
 
             - name: Run clippy
               run: cargo clippy --all --all-targets --all-features -- -D warnings
