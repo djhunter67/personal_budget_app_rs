@@ -16,7 +16,7 @@
 - [ ] Save previous expenses.
 - [ ] Analyze all previous data to identify trends in expenses.
 - [ ] Take advantage of interoperating with personal financial institutions.
-- [ ] Written in Rust.
+- [X] Written in Rust.
 
 ## Installation
 - Download the executable.
